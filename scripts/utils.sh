@@ -26,6 +26,8 @@ is_cmd_exists() {
 copy_to_clipboard() {
   if [[ "$(uname)" == "Darwin" ]] && is_cmd_exists "pbcopy"; then
     echo -n "$1" | pbcopy
+  elif [[ "$(uname)" == "Linux" ]] && is_cmd_exists "xsel"; then
+    echo -n "$1" | xsel -b
   elif [[ "$(uname)" == "Linux" ]] && is_cmd_exists "xclip"; then
     echo -n "$1" | xclip -i
   else
@@ -38,6 +40,8 @@ clear_clipboard() {
 
   if [[ "$(uname)" == "Darwin" ]] && is_cmd_exists "pbcopy"; then
     tmux run-shell -b "sleep $SEC && echo '' | pbcopy"
+  elif [[ "$(uname)" == "Linux" ]] && is_cmd_exists "xsel"; then
+    tmux run-shell -b "sleep $SEC && xsel -c -b"
   elif [[ "$(uname)" == "Linux" ]] && is_cmd_exists "xclip"; then
     tmux run-shell -b "sleep $SEC && echo '' | xclip -i"
   else
