@@ -51,6 +51,7 @@ you'll need to source again your `~/.tmux.conf` file.
 * [@pass-key](#pass-key)
 * [@pass-copy-to-clipboard](#pass-copy-to-clipboard)
 * [@pass-window-size](#pass-window-size)
+* [@pass-hide-pw-from-preview](#pass-hide-pw-from-preview)
 
 ### @pass-key
 
@@ -93,6 +94,23 @@ For example:
 
 ```bash
 set -g @pass-window-size 10
+```
+
+### @pass-hide-pw-from-preview
+
+```
+default: off
+```
+
+Show only additional information in the preview pane (e.g. login, url, etc.),
+but hide the password itself.  
+This can be desirable in situations when you don't want bystanding people to
+get a glimpse at your passwords.
+
+For example:
+
+```bash
+set -g @pass-hide-pw-from-preview 'on'
 ```
 
 ## Acknowledgements
