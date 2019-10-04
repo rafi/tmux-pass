@@ -52,6 +52,7 @@ you'll need to source again your `~/.tmux.conf` file.
 * [@pass-copy-to-clipboard](#pass-copy-to-clipboard)
 * [@pass-window-size](#pass-window-size)
 * [@pass-hide-pw-from-preview](#pass-hide-pw-from-preview)
+* [@pass-hide-preview](#pass-hide-preview)
 
 ### @pass-key
 
@@ -111,6 +112,20 @@ For example:
 
 ```bash
 set -g @pass-hide-pw-from-preview 'on'
+```
+
+### @pass-hide-preview
+
+```
+default: off
+```
+
+Start with the preview pane hidden.
+
+For example:
+
+```bash
+set -g @pass-hide-preview
 ```
 
 ## Acknowledgements

@@ -5,6 +5,7 @@ CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${CURRENT_DIR}/utils.sh"
 
 OPT_COPY_TO_CLIPBOARD="$(get_tmux_option "@pass-copy-to-clipboard" "off")"
+OPT_HIDE_PREVIEW="$(get_tmux_option "@pass-hide-preview" "off")"
 OPT_HIDE_PW_FROM_PREVIEW="$(get_tmux_option "@pass-hide-pw-from-preview" "off")"
 spinner_pid=""
 
@@ -66,8 +67,13 @@ main() {
   local items
   local sel
   local passwd
-  local header='enter=paste, ctrl-e=edit, ctrl-d=delete'
+  local header='enter=paste, ctrl-e=edit, ctrl-d=delete, tab=preview'
+  local preview_hidden
   local preview_cmd
+
+  if [[ "x$OPT_HIDE_PREVIEW" == "xon" ]]; then
+    preview_hidden='--preview-window=hidden'
+  fi
 
   if [[ "x$OPT_HIDE_PW_FROM_PREVIEW" == "xon" ]]; then
     preview_cmd='pass show {} | tail -n+2'
@@ -84,6 +90,8 @@ main() {
       --inline-info --no-multi \
       --tiebreak=begin \
       --preview="$preview_cmd" \
+      $preview_hidden \
+      --bind=tab:toggle-preview \
       --header="$header" \
       --expect=enter,ctrl-e,ctrl-d,ctrl-c,esc)"
 
