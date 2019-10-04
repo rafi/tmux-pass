@@ -57,6 +57,19 @@ get_password() {
   pass show "${1}" | head -n1
 }
 
+get_login() {
+  local keys="user login username"
+  local match
+
+  for candidate in $keys; do
+    match=$(pass show "${1}" | grep -i "$candidate" | cut -d ':' -f 2 | xargs)
+
+    if [[ ! -z $match ]]; then break; fi
+  done
+
+  echo "$match"
+}
+
 # ------------------------------------------------------------------------------
 
 main() {
@@ -65,7 +78,8 @@ main() {
   local items
   local sel
   local passwd
-  local header='enter=paste, ctrl-e=edit, ctrl-d=delete'
+  local login
+  local header='enter=paste, alt-enter=user, ctrl-e=edit, ctrl-d=delete'
 
   spinner_start "Fetching items"
   items="$(get_items)"
@@ -77,7 +91,8 @@ main() {
       --tiebreak=begin \
       --preview='pass show {}' \
       --header="$header" \
-      --expect=enter,ctrl-e,ctrl-d,ctrl-c,esc)"
+      --bind=alt-enter:accept \
+      --expect=enter,ctrl-e,ctrl-d,ctrl-c,esc,alt-enter)"
 
   if [ $? -gt 0 ]; then
     echo "error: unable to complete command - check/report errors above"
@@ -101,6 +116,18 @@ main() {
         clear_clipboard 30
       else
         tmux send-keys -t "$ACTIVE_PANE" "$passwd"
+      fi
+      ;;
+
+    alt-enter)
+      spinner_start "Fetching username"
+      login="$(get_login "$text")"
+      spinner_stop
+
+      if [[ "$OPT_COPY_TO_CLIPBOARD" == "on" ]]; then
+        copy_to_clipboard "$login"
+      else
+        tmux send-keys -t "$ACTIVE_PANE" "$login"
       fi
       ;;
 
