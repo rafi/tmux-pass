@@ -4,11 +4,22 @@
 
 ![tmux-pass preview](http://rafi.io/static/img/project/tmux-pass/preview.gif)
 
+## Features
+
+- Browse your password-store using fzf
+- Preview password in a tmux split (optional)
+- Detects pbcopy (macOS), xclip or xsel (Linux)
+- Copy password (<kbd>Enter</kbd>)
+- Copy username (<kbd>Alt</kbd>-<kbd>Enter</kbd>)
+- OTP support (<kbd>Alt</kbd>-<kbd>Space</kbd>)
+- Edit (<kbd>Ctrl</kbd>-<kbd>e</kbd>) and Delete (<kbd>Ctrl</kbd>-<kbd>d</kbd>)
+- Toggle password preview (<kbd>Tab</kbd>)
+
 ## Install
 
 ### Requirements
 * [password-store](https://www.passwordstore.org)
-* [tmux](https://github.com/tmux/tmux/wiki) 2.1+ (2.2 recommended)
+* [tmux](https://github.com/tmux/tmux/wiki) 3.x+
 * bash 4+
 * [fzf](https://github.com/junegunn/fzf)
 
@@ -34,7 +45,7 @@ git clone https://github.com/rafi/tmux-pass ~/.tmux/plugins/tmux-pass
 Source it in your `~/.tmux.conf`:
 
 ```bash
-run-shell ~/.tmux/plugins/tmux-pass/tmux-pass.tmux
+run-shell ~/.tmux/plugins/tmux-pass/plugin.tmux
 ```
 
 Reload tmux config by running:
@@ -104,7 +115,7 @@ default: off
 ```
 
 Show only additional information in the preview pane (e.g. login, url, etc.),
-but hide the password itself.  
+but hide the password itself.
 This can be desirable in situations when you don't want bystanding people to
 get a glimpse at your passwords.
 
