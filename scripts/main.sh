@@ -63,6 +63,10 @@ get_password() {
   pass show "${1}" | head -n1
 }
 
+get_otp() {
+  pass otp "${1}" | head -n1
+}
+
 get_login() {
   local keys="user login username"
   local match
@@ -85,7 +89,7 @@ main() {
   local sel
   local passwd
   local login
-  local header='enter=paste, alt-enter=user, ctrl-e=edit, ctrl-d=delete, tab=preview'
+  local header='enter=paste, alt-enter=user, ctrl-e=edit, ctrl-d=delete, tab=preview, alt-space=otp'
   local preview_hidden
   local preview_cmd
 
@@ -112,7 +116,7 @@ main() {
       --bind=tab:toggle-preview \
       --header="$header" \
       --bind=alt-enter:accept \
-      --expect=enter,ctrl-e,ctrl-d,ctrl-c,esc,alt-enter)"
+      --expect=enter,ctrl-e,ctrl-d,ctrl-c,esc,alt-enter,alt-space)"
 
   if [ $? -gt 0 ]; then
     echo "error: unable to complete command - check/report errors above"
@@ -148,6 +152,19 @@ main() {
         copy_to_clipboard "$login"
       else
         tmux send-keys -t "$ACTIVE_PANE" "$login"
+      fi
+      ;;
+
+    alt-space)
+      spinner_start "Fetching otp"
+      otp="$(get_otp "$text")"
+      spinner_stop
+
+      if [[ "$OPT_COPY_TO_CLIPBOARD" == "on" ]]; then
+        copy_to_clipboard "$otp"
+        clear_clipboard 30
+      else
+        tmux send-keys -t "$ACTIVE_PANE" "$otp"
       fi
       ;;
 
