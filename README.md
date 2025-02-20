@@ -145,4 +145,4 @@ This plugin is inspired by [tmux-1password](https://github.com/yardnsm/tmux-1pas
 
 ## License
 
-MIT
+GNU General Public License v3.0
