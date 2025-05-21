@@ -4,13 +4,15 @@ CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=scripts/utils.sh
 source "${CURRENT_DIR}/utils.sh"
 
-if command -v direnv > /dev/null 2>&1; then
+if command -v direnv >/dev/null 2>&1; then
   eval "$(direnv export bash)"
 fi
 
 OPT_COPY_TO_CLIPBOARD="$(get_tmux_option "@pass-copy-to-clipboard" "off")"
 OPT_HIDE_PREVIEW="$(get_tmux_option "@pass-hide-preview" "off")"
 OPT_HIDE_PW_FROM_PREVIEW="$(get_tmux_option "@pass-hide-pw-from-preview" "off")"
+OPT_DISABLE_SPINNER="$(get_tmux_option "@pass-enable-spinner" "on")"
+
 spinner_pid=""
 
 # ------------------------------------------------------------------------------
@@ -18,9 +20,7 @@ spinner_pid=""
 # Taken from:
 # https://github.com/yardnsm/dotfiles/blob/master/_setup/utils/spinner.sh
 show_spinner() {
-
   local -r MSG="$1"
-
   local -r FRAMES="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
   local -r DELAY=0.05
 
@@ -40,15 +40,19 @@ show_spinner() {
 }
 
 spinner_start() {
-  tput civis
-  show_spinner "$1" &
-  spinner_pid=$!
+  if [ "$OPT_DISABLE_SPINNER" = "on" ]; then
+    tput civis
+    show_spinner "$1" &
+    spinner_pid=$!
+  fi
 }
 
 spinner_stop() {
-  tput cnorm
-  kill "$spinner_pid" &> /dev/null
-  spinner_pid=""
+  if [ "$OPT_DISABLE_SPINNER" = "on" ]; then
+    tput cnorm
+    kill "$spinner_pid" &>/dev/null
+    spinner_pid=""
+  fi
 }
 
 # ------------------------------------------------------------------------------

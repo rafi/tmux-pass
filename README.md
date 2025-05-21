@@ -18,6 +18,7 @@
 ## Install
 
 ### Requirements
+
 * [password-store](https://www.passwordstore.org)
 * [tmux](https://github.com/tmux/tmux/wiki) 3.x+
 * bash 4+
@@ -64,11 +65,12 @@ you'll need to source again your `~/.tmux.conf` file.
 * [@pass-window-size](#pass-window-size)
 * [@pass-hide-pw-from-preview](#pass-hide-pw-from-preview)
 * [@pass-hide-preview](#pass-hide-preview)
+* [@pass-enable-spinner](#pass-enable-spinner)
 
 ### @pass-key
 
 ```
-default: B
+default: b
 ```
 
 Customize how to display the pass browser.
@@ -83,7 +85,7 @@ set -g @pass-key b
 ### @pass-copy-to-clipboard
 
 ```
-default: on
+default: off
 ```
 
 Copies selected password into clipboard.
@@ -105,7 +107,7 @@ The size of the tmux split that will be opened.
 For example:
 
 ```bash
-set -g @pass-window-size 10
+set -g @pass-window-size 15
 ```
 
 ### @pass-hide-pw-from-preview
@@ -116,13 +118,13 @@ default: off
 
 Show only additional information in the preview pane (e.g. login, url, etc.),
 but hide the password itself.
-This can be desirable in situations when you don't want bystanding people to
-get a glimpse at your passwords.
+This can be desirable in situations when you don't want bystanders to get a
+glimpse at your passwords.
 
 For example:
 
 ```bash
-set -g @pass-hide-pw-from-preview 'on'
+set -g @pass-hide-pw-from-preview on
 ```
 
 ### @pass-hide-preview
@@ -136,7 +138,21 @@ Start with the preview pane hidden.
 For example:
 
 ```bash
-set -g @pass-hide-preview
+set -g @pass-hide-preview on
+```
+
+### @pass-enable-spinner
+
+```
+default: on
+```
+
+Show a spinner when fetching items and reading entry.
+
+To disable spinner:
+
+```bash
+set -g @pass-enable-spinner off
 ```
 
 ## Acknowledgements
