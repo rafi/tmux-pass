@@ -139,7 +139,7 @@ main() {
         copy_to_clipboard "$passwd"
         clear_clipboard 30
       else
-        tmux send-keys -t "$ACTIVE_PANE" "$passwd"
+        tmux send-keys -t "$ACTIVE_PANE" -- "$passwd"
       fi
       ;;
 
@@ -151,7 +151,7 @@ main() {
       if [[ "$OPT_COPY_TO_CLIPBOARD" == "on" ]]; then
         copy_to_clipboard "$login"
       else
-        tmux send-keys -t "$ACTIVE_PANE" "$login"
+        tmux send-keys -t "$ACTIVE_PANE" -- "$login"
       fi
       ;;
 
@@ -164,7 +164,7 @@ main() {
         copy_to_clipboard "$otp"
         clear_clipboard 30
       else
-        tmux send-keys -t "$ACTIVE_PANE" "$otp"
+        tmux send-keys -t "$ACTIVE_PANE" -- "$otp"
       fi
       ;;
 
