@@ -1,8 +1,8 @@
-# tmux-pass [![Build Status](https://travis-ci.org/rafi/tmux-pass.svg?branch=master)](https://travis-ci.org/rafi/tmux-pass)
+# tmux-pass
 
 > Quick password-store browser with preview using fzf in tmux.
 
-![tmux-pass preview](http://rafi.io/static/img/project/tmux-pass/preview.gif)
+![tmux-pass preview](http://rafi.io/img/project/tmux-pass/preview.gif)
 
 ## Features
 
