@@ -24,12 +24,13 @@ is_cmd_exists() {
 }
 
 copy_to_clipboard() {
+  # Use 'printf' to properly handle password starting with a dash
   if [[ "$(uname)" == "Darwin" ]] && is_cmd_exists "pbcopy"; then
-    echo -n -- "$1" | pbcopy
+    printf "$1" | pbcopy
   elif [[ "$(uname)" == "Linux" ]] && is_cmd_exists "xsel"; then
-    echo -n -- "$1" | xsel -b
+    printf "$1" | xsel -b
   elif [[ "$(uname)" == "Linux" ]] && is_cmd_exists "xclip"; then
-    echo -n -- "$1" | xclip -i
+    printf "$1" | xclip -i
   else
     return 1
   fi
